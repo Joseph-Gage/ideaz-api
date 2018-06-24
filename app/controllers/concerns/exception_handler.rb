@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module ExceptionHandler
   extend ActiveSupport::Concern
 
   class AuthenticationError < StandardError; end
   class MissingToken < StandardError; end
   class InvalidToken < StandardError; end
+  class ExpiredToken < StandardError; end
 
   included do
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized_request
