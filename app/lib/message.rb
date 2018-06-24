@@ -8,4 +8,8 @@ class Message
   def self.missing_auth_token
     'Missing auth token'
   end
+
+  def self.invalid_credentials
+    'Invalid credentials'
+  end
 end
