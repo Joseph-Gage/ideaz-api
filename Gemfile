@@ -9,6 +9,8 @@ gem 'rails', '~> 5.2.0'
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+# Use Bcrypt for password encrypting
+gem 'bcrypt', '~> 3.1.12'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
