@@ -11,7 +11,8 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 # Use Bcrypt for password encrypting
 gem 'bcrypt', '~> 3.1.12'
-
+# Use JWTs for token based authentication
+gem 'jwt', '~> 2.1.0'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
