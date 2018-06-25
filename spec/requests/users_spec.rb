@@ -10,7 +10,6 @@ RSpec.describe 'Users', type: :request do
       before { post '/signup', params: valid_attributes }
 
       it 'creates new user' do
-        puts valid_attributes
         expect(response).to have_http_status(201)
       end
 
