@@ -9,6 +9,7 @@ module ExceptionHandler
   class ExpiredToken < StandardError; end
 
   included do
+    rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_request
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized_request
     rescue_from ExceptionHandler::MissingToken, with: :unprocessable_request
     rescue_from ExceptionHandler::InvalidToken, with: :unprocessable_request
