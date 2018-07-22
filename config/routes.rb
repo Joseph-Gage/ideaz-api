@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  post 'auth/signin', to: 'authentication#authenticate'
-  post 'signup', to: 'users#create'
+  post 'auth/sign-in', to: 'authentication#authenticate'
+  post 'sign-up', to: 'users#create'
 end

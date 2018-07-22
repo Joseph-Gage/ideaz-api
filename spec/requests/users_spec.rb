@@ -5,25 +5,21 @@ require 'rails_helper'
 RSpec.describe 'Users', type: :request do
   let(:valid_attributes) { attributes_for(:user) }
 
-  describe 'POST /signup' do
+  describe 'POST /sign-up' do
     context 'when request valid' do
-      before { post '/signup', params: valid_attributes }
+      before { post '/sign-up', params: valid_attributes }
 
       it 'creates new user' do
         expect(response).to have_http_status(201)
       end
 
-      it 'returns success message' do
-        expect(json['message']).to match(/Account created successfully/)
-      end
-
       it 'returns authentication token' do
-        expect(json['auth_token']).not_to be_nil
+        expect(json['data']['attributes']['accessToken']).not_to be_nil
       end
     end
 
     context 'when request invalid' do
-      before { post '/signup', params: {}, headers: headers }
+      before { post '/sign-up', params: {}, headers: headers }
 
       it 'does not create user' do
         expect(response).to have_http_status(422)
