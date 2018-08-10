@@ -11,14 +11,13 @@ module ControllerSpecHelper
 
   def valid_headers
     {
-      Authorization: token_generator(user.id)
+        Authorization: token_generator(user.id)
     }
   end
 
-  def invalid_headers
+  def auth_header(user_id)
     {
-      'Authorization' => nil,
-      'Content-Type' => 'application/json'
+        Authorization: token_generator(user_id)
     }
   end
 end

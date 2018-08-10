@@ -4,12 +4,13 @@ require 'rails_helper'
 
 RSpec.describe 'Ideas', type: :request do
   let(:user) { create(:user) }
+  let(:sneaky_user) { create(:user) }
   let!(:ideas) { create_list(:idea, 10, user_id: user.id) }
   let(:idea_id) { ideas.first.id }
   let(:headers) { valid_headers }
 
   describe 'GET /ideas' do
-    before { get '/ideas', headers: headers }
+    before { get '/ideas' }
 
     it 'returns ideas with status OK' do
       expect(json).not_to be_empty
@@ -18,7 +19,7 @@ RSpec.describe 'Ideas', type: :request do
   end
 
   describe 'GET /ideas/:id' do
-    before { get "/ideas/#{idea_id}", headers: headers }
+    before { get "/ideas/#{idea_id}" }
 
     context 'when record exists' do
       it 'returns idea with status OK' do
@@ -67,11 +68,20 @@ RSpec.describe 'Ideas', type: :request do
     let(:valid_attributes) { { title: 'A Changed Idea' } }
     before { put "/ideas/#{idea_id}", params: valid_attributes, headers: headers }
 
-    context 'when record exists' do
+    context 'when user owns record' do
       it 'updates idea with status NO CONTENT' do
         expect(Idea.find(idea_id).title).to eq('A Changed Idea')
         expect(response.body).to be_empty
         expect(response).to have_http_status(204)
+      end
+    end
+
+    context 'when user does not own record' do
+      let(:headers) { auth_header(sneaky_user.id) }
+
+      it 'returns status UNAUTHORIZED' do
+        expect(json['message']).to match(/Invalid permission/)
+        expect(response).to have_http_status(401)
       end
     end
 
@@ -88,9 +98,21 @@ RSpec.describe 'Ideas', type: :request do
   describe 'DELETE /ideas/:id' do
     before { delete "/ideas/#{idea_id}", headers: headers }
 
-    it 'deletes idea with status 204' do
-      expect { Idea.find(idea_id) }.to raise_error(ActiveRecord::RecordNotFound)
-      expect(response).to have_http_status(204)
+    context 'when user owns record' do
+      it 'deletes idea with status 204' do
+        expect { Idea.find(idea_id) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response).to have_http_status(204)
+      end
+    end
+
+    context 'when user does not own record' do
+      let(:headers) { auth_header(sneaky_user.id) }
+
+      it 'returns status UNAUTHORIZED' do
+        expect(Idea.find(idea_id)).not_to be_nil
+        expect(json['message']).to match(/Invalid permission/)
+        expect(response).to have_http_status(401)
+      end
     end
   end
 end

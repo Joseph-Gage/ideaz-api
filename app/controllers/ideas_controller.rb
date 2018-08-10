@@ -1,5 +1,7 @@
 class IdeasController < ApplicationController
   before_action :set_idea, only: %i[show update destroy]
+  before_action :require_permission, only: %i[update destroy]
+  skip_before_action :authorize_request, only: %i[index show]
 
   def index
     ideas = Idea.all
@@ -33,5 +35,9 @@ class IdeasController < ApplicationController
 
   def set_idea
     @idea = Idea.find(params[:id])
+  end
+
+  def require_permission
+    raise(ExceptionHandler::AuthenticationError, Message.invalid_permission) unless @current_user.id == @idea.user_id
   end
 end
