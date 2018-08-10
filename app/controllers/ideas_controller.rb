@@ -11,7 +11,7 @@ class IdeasController < ApplicationController
   end
 
   def create
-    idea = Idea.create!(idea_params)
+    idea = current_user.ideas.create!(idea_params)
     json_response(IdeaSerializer.new(idea).serialized_json, :created)
   end
 
@@ -28,7 +28,7 @@ class IdeasController < ApplicationController
   private
 
   def idea_params
-    params.permit(:title, :description, :user_id)
+    params.permit(:title, :description)
   end
 
   def set_idea

@@ -40,8 +40,7 @@ RSpec.describe 'Ideas', type: :request do
 
   describe 'POST /ideas' do
     let(:valid_attributes) do
-      { title: 'New Idea', description: 'my newest idea',
-        user_id: user.id }
+      { title: 'New Idea', description: 'my newest idea' }
     end
 
     context 'when request valid' do
@@ -49,6 +48,7 @@ RSpec.describe 'Ideas', type: :request do
 
       it 'creates idea with status CREATED' do
         expect(json['data']['attributes']['title']).to eq(valid_attributes[:title])
+        expect(json['data']['attributes']['userId']).to eq(user.id)
         expect(response).to have_http_status(201)
       end
     end
