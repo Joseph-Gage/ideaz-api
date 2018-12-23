@@ -7,7 +7,7 @@ class AuthenticateUser
   end
 
   def call
-    AuthToken.new(JsonWebToken.encode({ user_id: user.id }, 86_400.seconds.from_now), 86_400) if user
+    JsonWebToken.encode(user_id: user.id) if user
   end
 
   private
@@ -17,6 +17,7 @@ class AuthenticateUser
   def user
     user = User.find_by(email: email)
     return user if user&.authenticate(password)
-    raise(ExceptionHandler::AuthenticationError, Message.invalid_credentials)
+
+    raise ExceptionHandler::AuthenticationError, Message.invalid_credentials
   end
 end

@@ -3,34 +3,30 @@
 module ExceptionHandler
   extend ActiveSupport::Concern
 
-  class AuthenticationError < StandardError;
-  end
-  class MissingToken < StandardError;
-  end
-  class InvalidToken < StandardError;
-  end
-  class ExpiredToken < StandardError;
-  end
+  class AuthenticationError < StandardError; end
+  class MissingToken < StandardError; end
+  class InvalidToken < StandardError; end
+  class ExpiredToken < StandardError; end
 
   included do
-    rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+    rescue_from ActiveRecord::RecordNotFound, with: :resource_not_found
     rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_request
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized_request
-    rescue_from ExceptionHandler::MissingToken, with: :unprocessable_request
-    rescue_from ExceptionHandler::InvalidToken, with: :unprocessable_request
+    rescue_from ExceptionHandler::MissingToken, with: :unauthorized_request
+    rescue_from ExceptionHandler::InvalidToken, with: :unauthorized_request
   end
 
   private
 
-  def record_not_found(exception)
-    json_response({ message: exception.message }, :not_found)
+  def resource_not_found(exception)
+    render json: { message: exception.message }, status: :not_found
   end
 
   def unauthorized_request(exception)
-    json_response({ message: exception.message }, :unauthorized)
+    render json: { message: exception.message }, status: :unauthorized
   end
 
   def unprocessable_request(exception)
-    json_response({ message: exception.message }, :unprocessable_entity)
+    render json: { message: exception.message }, status: :unprocessable_entity
   end
 end

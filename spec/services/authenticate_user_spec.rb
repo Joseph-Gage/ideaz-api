@@ -9,7 +9,7 @@ RSpec.describe AuthenticateUser do
 
   describe '#call' do
     context 'when credentials valid' do
-      it 'returns auth token' do
+      it 'returns services token' do
         token = auth_obj.call
         expect(token).not_to be_nil
       end

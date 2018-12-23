@@ -72,7 +72,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   # Add spec helper methods
-  config.include ControllerSpecHelper
+  config.include AuthSpecHelper
   config.include RequestSpecHelper
 
   # Setup database cleaner for tests
