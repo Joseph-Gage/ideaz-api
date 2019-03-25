@@ -1,6 +1,7 @@
 class IdeasController < ApplicationController
   before_action :set_idea, only: %i[show update destroy]
   skip_before_action :authorize_request, only: %i[index show]
+  skip_load_and_authorize_resource only: %i[index show]
 
   def index
     ideas = Idea.all

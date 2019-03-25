@@ -2,9 +2,10 @@
 
 class UsersController < ApplicationController
   skip_before_action :authorize_request, only: :create
+  skip_load_and_authorize_resource only: :create
 
   def create
-   User.create!(user_params)
+    User.create!(user_params)
     render json: { message: Message.user_created }, status: :created
   end
 

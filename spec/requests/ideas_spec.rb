@@ -83,10 +83,10 @@ RSpec.describe 'Ideas', type: :request do
     end
 
     context 'when user does not own record' do
-      let(:headers) { auth_header(imposter.id) }
+      let(:headers) { valid_headers(imposter.id) }
 
       it 'returns status UNAUTHORIZED' do
-        expect(json['message']).to match(/Invalid permission/)
+        expect(json['message']).to match(/You are not authorized to access this page/)
         expect(response).to have_http_status(401)
       end
     end
@@ -112,11 +112,11 @@ RSpec.describe 'Ideas', type: :request do
     end
 
     context 'when user does not own record' do
-      let(:headers) { auth_header(imposter.id) }
+      let(:headers) { valid_headers(imposter.id) }
 
       it 'returns status UNAUTHORIZED' do
         expect(Idea.find(idea_id)).not_to be_nil
-        expect(json['message']).to match(/Invalid permission/)
+        expect(json['message']).to match(/You are not authorized to access this page/)
         expect(response).to have_http_status(401)
       end
     end

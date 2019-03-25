@@ -2,6 +2,7 @@
 
 class AuthenticationController < ApplicationController
   skip_before_action :authorize_request, only: :authenticate
+  skip_load_and_authorize_resource
 
   def authenticate
     token = AuthenticateUser.new(auth_parms[:email], auth_parms[:password]).call

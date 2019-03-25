@@ -15,6 +15,7 @@ module ExceptionHandler
     rescue_from ExceptionHandler::AuthenticationError, with: :unauthorized_request
     rescue_from ExceptionHandler::MissingToken, with: :unauthorized_request
     rescue_from ExceptionHandler::InvalidToken, with: :unauthorized_request
+    rescue_from CanCan::AccessDenied, with: :unauthorized_request
   end
 
   private
