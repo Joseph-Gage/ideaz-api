@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  include Response
   include ExceptionHandler
 
-  before_action :authorize_request
+  before_action :identify_user
   attr_reader :current_user
+  load_and_authorize_resource
 
   private
 
-  def authorize_request
-    @current_user = AuthorizeApiRequest.new(request.headers).call[:user]
+  def identify_user
+    @current_user = IdentifyUser.new(request.headers).call
   end
 end

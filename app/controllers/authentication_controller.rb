@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
-  skip_before_action :authorize_request, only: :authenticate
+  skip_before_action :identify_user, only: :authenticate
+  skip_load_and_authorize_resource
 
   def authenticate
-    auth_token =
-        AuthenticateUser.new(auth_params[:email], auth_params[:password]).call
-    json_response(AuthTokenSerializer.new(auth_token).serialized_json)
+    token = AuthenticateUser.new(auth_parms[:email], auth_parms[:password]).call
+    render json: { token: token }, status: :ok
   end
 
-  def auth_params
+  private
+
+  def auth_parms
     params.permit(:email, :password)
   end
 end
