@@ -3,13 +3,13 @@
 class ApplicationController < ActionController::API
   include ExceptionHandler
 
-  before_action :authorize_request
+  before_action :identify_user
   attr_reader :current_user
   load_and_authorize_resource
 
   private
 
-  def authorize_request
-    @current_user = AuthorizeRequest.new(request.headers).call
+  def identify_user
+    @current_user = IdentifyUser.new(request.headers).call
   end
 end

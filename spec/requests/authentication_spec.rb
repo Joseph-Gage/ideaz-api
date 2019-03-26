@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Authentication API', type: :request do
-  describe 'POST /signin' do
+  describe 'POST /login' do
     let!(:user) { create(:user) }
     let(:credentials) { { email: user.email, password: user.password } }
-    before { post '/signin', params: credentials }
+    before { post '/login', params: credentials }
 
     context 'when the request is valid' do
       it 'returns an authentication token' do
@@ -19,7 +19,7 @@ RSpec.describe 'Authentication API', type: :request do
     context 'when the request is invalid' do
       let(:credentials) do
         {
-          email: Faker::Internet.email, password: Faker::Internet.password
+            email: Faker::Internet.email, password: Faker::Internet.password
         }
       end
 

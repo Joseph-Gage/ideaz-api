@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AuthorizeRequest do
+RSpec.describe IdentifyUser do
   let(:user) { create(:user) }
   let(:header) { valid_headers(user.id) }
   subject(:request_obj) { described_class.new(header) }

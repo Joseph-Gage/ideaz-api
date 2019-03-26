@@ -3,10 +3,14 @@
 module ExceptionHandler
   extend ActiveSupport::Concern
 
-  class AuthenticationError < StandardError; end
-  class MissingToken < StandardError; end
-  class InvalidToken < StandardError; end
-  class ExpiredToken < StandardError; end
+  class AuthenticationError < StandardError;
+  end
+  class MissingToken < StandardError;
+  end
+  class InvalidToken < StandardError;
+  end
+  class ExpiredToken < StandardError;
+  end
 
   included do
     rescue_from ActionController::ParameterMissing, with: :unprocessable_request

@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  ROLES = %i[admin user].freeze
+  ROLES = %i[user admin].freeze
 
   def roles=(roles)
     roles = [*roles].map { |r| r.to_sym }

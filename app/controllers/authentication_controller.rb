@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
-  skip_before_action :authorize_request, only: :authenticate
+  skip_before_action :identify_user, only: :authenticate
   skip_load_and_authorize_resource
 
   def authenticate

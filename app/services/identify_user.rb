@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AuthorizeRequest
+class IdentifyUser
   def initialize(headers = {})
     @headers = headers
   end
