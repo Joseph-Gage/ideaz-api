@@ -29,11 +29,11 @@ class IdeasController < ApplicationController
 
   private
 
-  def idea_params
-    params.require(:idea).permit(:title, :description)
-  end
-
   def set_idea
     @idea = Idea.find(params[:id])
+  end
+
+  def idea_params
+    params.require(:idea).permit(:title, :description)
   end
 end

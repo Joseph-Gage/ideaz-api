@@ -1,51 +1,39 @@
 class VotesController < ApplicationController
-  before_action :set_vote, only: [:show, :update, :destroy]
+  before_action :set_vote, only: %i[show update destroy]
+  skip_before_action :identify_user, only: %i[index]
+  skip_load_and_authorize_resource only: %i[index]
 
-  # GET /votes
   def index
-    @votes = Vote.all
-
-    render json: @votes
+    @votes = Vote.where(idea_id: params[:idea_id])
+    render json: @votes, status: :ok
   end
 
-  # GET /votes/1
   def show
-    render json: @vote
+    render json: @vote, status: :ok
   end
 
-  # POST /votes
   def create
-    @vote = Vote.new(vote_params)
-
-    if @vote.save
-      render json: @vote, status: :created, location: @vote
-    else
-      render json: @vote.errors, status: :unprocessable_entity
-    end
+    vote = current_user.votes.create!(vote_params)
+    render json: vote, status: :created
   end
 
-  # PATCH/PUT /votes/1
   def update
-    if @vote.update(vote_params)
-      render json: @vote
-    else
-      render json: @vote.errors, status: :unprocessable_entity
-    end
+    @vote.update!(vote_params)
+    head :no_content
   end
 
-  # DELETE /votes/1
   def destroy
     @vote.destroy
+    head :no_content
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_vote
-      @vote = Vote.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def vote_params
-      params.require(:vote).permit(:value, :user_id, :idea_id)
-    end
+  def set_vote
+    @vote = Vote.find(params[:id])
+  end
+
+  def vote_params
+    params.require(:vote).permit(:value, :idea_id)
+  end
 end

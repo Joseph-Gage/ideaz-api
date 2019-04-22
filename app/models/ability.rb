@@ -4,6 +4,7 @@ class Ability
   def initialize(user)
     return unless user.present?
     can :manage, Idea, user_id: user.id
+    can :manage, Vote, user_id: user.id
     can :manage, User, id: user.id
     can :manage, :all if user.has_role? :admin
   end
