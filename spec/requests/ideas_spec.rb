@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Ideas', type: :request do
   let(:user) { create(:user) }
-  let(:imposter) { create(:user) }
+  let(:impostor) { create(:user) }
   let!(:ideas) { create_list(:idea, 10, user_id: user.id) }
   let(:idea_id) { ideas.first.id }
   let(:headers) { valid_headers(user.id) }
@@ -83,11 +83,11 @@ RSpec.describe 'Ideas', type: :request do
     end
 
     context 'when user does not own record' do
-      let(:headers) { valid_headers(imposter.id) }
+      let(:headers) { valid_headers(impostor.id) }
 
-      it 'returns status UNAUTHORIZED' do
+      it 'returns status FORBIDDEN' do
         expect(json['message']).to match(/You are not authorized to access this page/)
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(403)
       end
     end
 
@@ -112,12 +112,12 @@ RSpec.describe 'Ideas', type: :request do
     end
 
     context 'when user does not own record' do
-      let(:headers) { valid_headers(imposter.id) }
+      let(:headers) { valid_headers(impostor.id) }
 
-      it 'returns status UNAUTHORIZED' do
+      it 'returns status FORBIDDEN' do
         expect(Idea.find(idea_id)).not_to be_nil
         expect(json['message']).to match(/You are not authorized to access this page/)
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(403)
       end
     end
   end

@@ -10,11 +10,6 @@ class Message
       'Invalid credentials'
     end
 
-    def invalid_permission
-      'Invalid permission'
-    end
-
-
     def missing_token
       'Missing auth token'
     end

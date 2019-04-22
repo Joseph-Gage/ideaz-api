@@ -18,9 +18,7 @@ RSpec.describe 'Authentication API', type: :request do
 
     context 'when the request is invalid' do
       let(:credentials) do
-        {
-            email: Faker::Internet.email, password: Faker::Internet.password
-        }
+        { email: Faker::Internet.email, password: Faker::Internet.password }
       end
 
       it 'returns status UNAUTHORIZED with message' do
