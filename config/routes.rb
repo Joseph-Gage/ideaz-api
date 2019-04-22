@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   post 'register', to: 'users#create'
   get 'me', to: 'users#me'
   resources :ideas
+  resources :votes
 end
